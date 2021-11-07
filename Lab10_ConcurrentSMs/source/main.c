@@ -1,7 +1,7 @@
 /*	Author: tlafo001
  *  Partner(s) Name: 
  *	Lab Section: 022
- *	Assignment: Lab # 10  Exercise # 1
+ *	Assignment: Lab # 10  Exercise # 2
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -112,10 +112,10 @@ void Tick_CombineLEDs() {
 }
 
 int main(void) {
-	unsigned long ThreeLED_elapsedTime = 1000;
+	unsigned long ThreeLED_elapsedTime = 300;
 	unsigned long BlinkingLED_elapsedTime = 1000;
-	unsigned long CombineLED_elapsedTime = 1000;
-	const unsigned long timerPeriod = 1000;
+	unsigned long CombineLED_elapsedTime = 100;
+	const unsigned long timerPeriod = 100;
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;
@@ -126,7 +126,7 @@ int main(void) {
 	BlinkingLED_state = BlinkingLED_SMStart;
 	CombineLED_state = CombineLED_SMStart;
     while (1) {
-	if (ThreeLED_elapsedTime >= 1000)
+	if (ThreeLED_elapsedTime >= 300)
 	{
 		Tick_ThreeLEDs();
 		ThreeLED_elapsedTime = 0;
@@ -136,7 +136,7 @@ int main(void) {
 		Tick_BlinkingLED();
 		BlinkingLED_elapsedTime = 0;
 	}
-	if (CombineLED_elapsedTime >= 1000)
+	if (CombineLED_elapsedTime >= 100)
 	{
 		Tick_CombineLEDs();
 		CombineLED_elapsedTime = 0;
