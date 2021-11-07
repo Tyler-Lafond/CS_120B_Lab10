@@ -119,6 +119,7 @@ void Tick_Speaker() {
 			break;
 		case Speaker_On:
 			TCCR3A = (1 << COM3B0);
+			TCCR3B = (1 << CS31) | (1 << CS30);
 			OCR3B = (short)(8000000 / (128 * 500.0)) - 1;
 			TCCR3A = (1 << COM3B1) | (1 << COM3B0);
 			speaker = 0x10;
@@ -146,7 +147,7 @@ void Tick_CombineLEDs() {
 	switch(CombineLED_state)
 	{
 		case CombineLED_Output:
-			tempB = ((threeLEDs | blinkingLED) | TCCR3A);
+			tempB = ((threeLEDs | blinkingLED) | speaker);
 			PORTB = tempB;
 			break;
 		default:
