@@ -119,7 +119,7 @@ void Tick_Speaker() {
 			break;
 		case Speaker_On:
 			TCCR3A = (1 << COM3B0);
-			TCCR3B = (1 << CS31) | (1 << CS30);
+			TCCR3B = (2 << WGM32) | (1 << CS31) | (1 << CS30);
 			OCR3B = 0xFFFF;
 			speaker = 0x10;
 			break;
