@@ -104,7 +104,7 @@ void Tick_Speaker() {
 			}
 			break;
 		case Speaker_On:
-			Speaker_state = Speaker_Off;
+			Speaker_state = Speaker_On;
 			break;
 		default:
 			Speaker_state = Speaker_SMStart;
@@ -146,7 +146,7 @@ void Tick_CombineLEDs() {
 	{
 		case CombineLED_Output:
 			tempB = ((threeLEDs | blinkingLED) | speaker);
-			PORTB = tempB;
+		//	PORTB = tempB;
 			break;
 		default:
 			break;
