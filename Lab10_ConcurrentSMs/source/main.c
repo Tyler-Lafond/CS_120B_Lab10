@@ -104,7 +104,7 @@ void Tick_Speaker() {
 			}
 			break;
 		case Speaker_On:
-			Speaker_state = Speaker_Off;
+			Speaker_state = Speaker_On;
 			break;
 		default:
 			Speaker_state = Speaker_SMStart;
