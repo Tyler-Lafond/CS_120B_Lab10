@@ -146,7 +146,7 @@ void Tick_CombineLEDs() {
 	{
 		case CombineLED_Output:
 			tempB = ((threeLEDs | blinkingLED) | speaker);
-		//	PORTB = tempB;
+			PORTB = tempB;
 			break;
 		default:
 			break;
