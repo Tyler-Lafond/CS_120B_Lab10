@@ -115,7 +115,7 @@ int main(void) {
 	unsigned long ThreeLED_elapsedTime = 300;
 	unsigned long BlinkingLED_elapsedTime = 1000;
 	unsigned long CombineLED_elapsedTime = 100;
-	const unsigned long timerPeriod = 50;
+	const unsigned long timerPeriod = 100;
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;

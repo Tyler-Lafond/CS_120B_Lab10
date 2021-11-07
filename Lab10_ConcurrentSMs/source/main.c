@@ -1,7 +1,7 @@
 /*	Author: tlafo001
  *  Partner(s) Name: 
  *	Lab Section: 022
- *	Assignment: Lab # 10  Exercise # 2
+ *	Assignment: Lab # 10  Exercise # 3
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -15,6 +15,7 @@
 
 unsigned char threeLEDs;
 unsigned char blinkingLED;
+unsigned char speaker;
 unsigned char tempB;
 
 enum ThreeLED_states { ThreeLED_SMStart, ThreeLED_Zero, ThreeLED_One, ThreeLED_Two } ThreeLED_state;
@@ -85,6 +86,44 @@ void Tick_BlinkingLED() {
 	}
 }
 
+enum Speaker_states { Speaker_SMStart, Speaker_Off, Speaker_On } Speaker_state;
+void Tick_Speaker() {
+	switch(Speaker_state)
+	{
+		case Speaker_SMStart:
+			Speaker_state = Speaker_Off;
+			break;
+		case Speaker_Off:
+			if ((PINA & 0x04) == 0x00)
+			{
+				Speaker_state = Speaker_On;
+			}
+			else if ((PINA & 0x04) == 0x04)
+			{
+				Speaker_state = Speaker_Off;
+			}
+			break;
+		case Speaker_On:
+			Speaker_state = Speaker_Off;
+			break;
+		default:
+			Speaker_state = Speaker_SMStart;
+			break;
+	}
+
+	switch(Speaker_state)
+	{
+		case Speaker_Off:
+			speaker = 0x00;
+			break;
+		case Speaker_On:
+			speaker = 0x10;
+			break;
+		default:
+			break;
+	}
+}
+
 enum CombineLED_states { CombineLED_SMStart, CombineLED_Output } CombineLED_state;
 void Tick_CombineLEDs() {
 	switch(CombineLED_state)
@@ -96,14 +135,14 @@ void Tick_CombineLEDs() {
 			CombineLED_state = CombineLED_Output;
 			break;
 		default:
-			CombineLED_state = CombineLED_SMStart;
+			ThreeLED_state = ThreeLED_SMStart;
 			break;
 	}
 
 	switch(CombineLED_state)
 	{
 		case CombineLED_Output:
-			tempB = (threeLEDs | blinkingLED);
+			tempB = ((threeLEDs | blinkingLED) | speaker);
 			PORTB = tempB;
 			break;
 		default:
@@ -114,8 +153,9 @@ void Tick_CombineLEDs() {
 int main(void) {
 	unsigned long ThreeLED_elapsedTime = 300;
 	unsigned long BlinkingLED_elapsedTime = 1000;
-	unsigned long CombineLED_elapsedTime = 100;
-	const unsigned long timerPeriod = 100;
+	unsigned long Speaker_elapsedTime = 2;
+	unsigned long CombineLED_elapsedTime = 2;
+	const unsigned long timerPeriod = 2;
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;
@@ -124,6 +164,7 @@ int main(void) {
 	TimerOn();
 	ThreeLED_state = ThreeLED_SMStart;
 	BlinkingLED_state = BlinkingLED_SMStart;
+	Speaker_state = Speaker_SMStart;
 	CombineLED_state = CombineLED_SMStart;
     while (1) {
 	if (ThreeLED_elapsedTime >= 300)
@@ -136,6 +177,11 @@ int main(void) {
 		Tick_BlinkingLED();
 		BlinkingLED_elapsedTime = 0;
 	}
+	if (Speaker_elapsedTime >= 2)
+	{
+		Tick_Speaker();
+		Speaker_elapsedTime = 0;
+	}
 	if (CombineLED_elapsedTime >= 100)
 	{
 		Tick_CombineLEDs();
@@ -145,6 +191,7 @@ int main(void) {
 	TimerFlag = 0;
 	ThreeLED_elapsedTime += timerPeriod;
 	BlinkingLED_elapsedTime += timerPeriod;
+	Speaker_elapsedTime += timerPeriod;
 	CombineLED_elapsedTime += timerPeriod;
     }
     return 1;
