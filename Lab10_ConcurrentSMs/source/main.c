@@ -104,7 +104,7 @@ void Tick_Speaker() {
 			}
 			break;
 		case Speaker_On:
-			Speaker_state = Speaker_On;
+			Speaker_state = Speaker_Off;
 			break;
 		default:
 			Speaker_state = Speaker_SMStart;
@@ -115,13 +115,14 @@ void Tick_Speaker() {
 	{
 		case Speaker_Off:
 			TCCR3A = 0x00;
+			TCCR3B = 0x00;
 			speaker = 0x00;
 			break;
 		case Speaker_On:
 			TCCR3A = (1 << COM3B0);
-			TCCR3B = (2 << WGM32) | (1 << CS31) | (1 << CS30);
-			OCR3B = 0xFFFF;
-			TCNT3 = 0xFFFF;
+			TCCR3B = (2 << WGM32);
+			OCR3B = (short)(8000000 / (128 * 500.0)) - 1;
+			TCNT3 = OCR3B;
 			speaker = 0x10;
 			break;
 		default:
