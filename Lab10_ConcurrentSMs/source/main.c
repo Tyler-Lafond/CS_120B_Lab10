@@ -121,7 +121,7 @@ void Tick_Speaker() {
 			TCCR3A = (1 << COM3B0);
 			TCCR3B = (2 << WGM32) | (1 << CS31) | (1 << CS30);
 			OCR3B = 0xFFFF;
-			TCNT3 = 0;
+			TCNT3 = 0xFFFF;
 			speaker = 0x10;
 			break;
 		default:
