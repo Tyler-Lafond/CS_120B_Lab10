@@ -114,9 +114,11 @@ void Tick_Speaker() {
 	switch(Speaker_state)
 	{
 		case Speaker_Off:
+			TCCR3A = 0x00;
 			speaker = 0x00;
 			break;
 		case Speaker_On:
+			TCCR3A = 0x01;
 			speaker = 0x10;
 			break;
 		default:
