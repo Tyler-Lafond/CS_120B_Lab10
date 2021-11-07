@@ -119,6 +119,7 @@ void Tick_Speaker() {
 			break;
 		case Speaker_On:
 			TCCR3A = (1 << COM3B0);
+			OCR3A = (short)(8000000 / (128 * 500.0)) - 1;
 		//	speaker = 0x10;
 			break;
 		default:
